@@ -17,26 +17,28 @@
 
 namespace kaleidoscope {
 namespace one_shot {
+
+void exportPython() {
    
-static void exportPython() {
-   
-   using boost::python;
-   
+   using namespace boost::python;
+
    // Symbols of this plugin are exported 
    // as leidokos.kaleidoscope.one_shot
    //
    LEIDOKOS_PYTHON_MODULE_CONTENT(kaleidoscope)
    LEIDOKOS_PYTHON_MODULE_CONTENT(one_shot)
-   
-   // Everything that follows the next line 
-   // is defined at class scope
-   // leidokos.kaleidoscope.one_shot.OneShot
-   //
-   scope OneShot_class_scope
+
+   auto OneShot_class
       = class_<kaleidoscope::OneShot>("OneShot",
            "The main plugin class of the OneShot plugin.",
            boost::python::init< >()
       );
+      
+   // Everything that follows the next line 
+   // is defined at class scope
+   // leidokos.kaleidoscope.one_shot.OneShot
+   //
+   scope OneShot_class_scope = OneShot_class;
     
    // Export the nested class kaleidoscope::OneShot::state_t
    // as leidokos.kaleidoscope.one_shot.OneShot.state_t
@@ -50,16 +52,16 @@ static void exportPython() {
    // the union OneShot::state_t
    // 
    .add_property("mods", 
-               make_getter(&kaleidoscope::OneShot::mods),
-               make_setter(&kaleidoscope::OneShot::mods)
+               make_getter(&kaleidoscope::OneShot::state_t::mods),
+               make_setter(&kaleidoscope::OneShot::state_t::mods)
    )
    .add_property("layers", 
-               make_getter(&kaleidoscope::OneShot::layers),
-               make_setter(&kaleidoscope::OneShot::layers)
+               make_getter(&kaleidoscope::OneShot::state_t::layers),
+               make_setter(&kaleidoscope::OneShot::state_t::layers)
    )
    .add_property("all", 
-               make_getter(&kaleidoscope::OneShot::all),
-               make_setter(&kaleidoscope::OneShot::all)
+               make_getter(&kaleidoscope::OneShot::state_t::all),
+               make_setter(&kaleidoscope::OneShot::state_t::all)
    );
 
    // A convenience function macro that enables easy export 
@@ -70,7 +72,7 @@ static void exportPython() {
       
    // The ONESHOT_FUNCTION export macro operates on class
    // OneShot_class_scope
-   OneShot_class_scope
+   OneShot_class
    
    ONESHOT_FUNCTION(isOneShotKey)
    

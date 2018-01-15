@@ -73,6 +73,8 @@ class OneShot : public KaleidoscopePlugin {
 
   static Key eventHandlerHook(Key mapped_key, byte row, byte col, uint8_t key_state);
   static void loopHook(bool is_post_clear);
+  
+  friend ::kaleidoscope::one_shot::exportPython;
 };
 
 }

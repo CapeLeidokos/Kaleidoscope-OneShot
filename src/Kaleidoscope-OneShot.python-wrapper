@@ -1,0 +1,135 @@
+#include "Leidokos-Python.h"
+
+#include "Kaleidoscope-OneShot.h"
+
+// The purpose of this file is Python export of 
+// symbols of plugin Kaleidoscope-OneShot.
+//
+// This file is not compiled as part of the device firmware.
+// It is only used for virtual firmware builds for the simulation of
+// the device e.g. on x86. 
+// It contains C++ code that is made available to virtual builds
+// by renaming the file appropriately or generating suitable
+// symbolic links to it.
+// 
+// See http://www.boost.org/doc/libs/1_59_0/libs/python/doc/tutorial/doc/html/index.html
+// for a description of the boost-python API.
+
+namespace kaleidoscope {
+namespace one_shot {
+   
+static void exportPython() {
+   
+   using boost::python;
+   
+   // Symbols of this plugin are exported 
+   // as leidokos.kaleidoscope.one_shot
+   //
+   LEIDOKOS_PYTHON_MODULE_CONTENT(kaleidoscope)
+   LEIDOKOS_PYTHON_MODULE_CONTENT(one_shot)
+   
+   // Everything that follows the next line 
+   // is defined at class scope
+   // leidokos.kaleidoscope.one_shot.OneShot
+   //
+   scope OneShot_class_scope
+      = class_<kaleidoscope::OneShot>("OneShot",
+           "The main plugin class of the OneShot plugin.",
+           boost::python::init< >()
+      );
+    
+   // Export the nested class kaleidoscope::OneShot::state_t
+   // as leidokos.kaleidoscope.one_shot.OneShot.state_t
+   //
+   class_<kaleidoscope::OneShot::state_t>("state_t",
+      "A state union",
+      boost::python::init< >()
+   )
+   
+   // Export Python properties that allow direct access to 
+   // the union OneShot::state_t
+   // 
+   .add_property("mods", 
+               make_getter(&kaleidoscope::OneShot::mods),
+               make_setter(&kaleidoscope::OneShot::mods)
+   )
+   .add_property("layers", 
+               make_getter(&kaleidoscope::OneShot::layers),
+               make_setter(&kaleidoscope::OneShot::layers)
+   )
+   .add_property("all", 
+               make_getter(&kaleidoscope::OneShot::all),
+               make_setter(&kaleidoscope::OneShot::all)
+   );
+
+   // A convenience function macro that enables easy export 
+   // of static methods of class kaleidoscope::OneShot
+   //
+   #define ONESHOT_FUNCTION(NAME) \
+      .def(#NAME, &kaleidoscope::OneShot::NAME)
+      
+   // The ONESHOT_FUNCTION export macro operates on class
+   // OneShot_class_scope
+   OneShot_class_scope
+   
+   ONESHOT_FUNCTION(isOneShotKey)
+   
+   // There are two static methods named 'isActive' in 
+   // class OneShot. Let's make sure they are 
+   // exported accordingly. Python does not allow for
+   // method overloading. Therefore, we use two different names.
+   //
+   .def("isActive", static_cast< 
+            bool(*)()
+         >(&kaleidoscope::OneShot::isActive))
+   
+   .def("isActiveKey", static_cast< 
+            bool(*)(Key)
+         >(&kaleidoscope::OneShot::isActive))
+
+   ONESHOT_FUNCTION(isSticky)
+  
+   // There are two static methods named 'cancel' in 
+   // class OneShot. Let's make sure they are 
+   // exported accordingly. Python does not allow for
+   // method overloading. Therefore, we use two different names.
+   //
+   .def("cancelWithStickies", static_cast< 
+            void(*)(bool)
+         >(&kaleidoscope::OneShot::cancel))
+   
+   .def("cancel", static_cast< 
+            void(*)()
+         >(&kaleidoscope::OneShot::cancel))
+   
+   ONESHOT_FUNCTION(isModifierActive)
+   ONESHOT_FUNCTION(inject)
+
+   // All static class members of class kaleidoscope::OneShot
+   // are exported as python properties.
+   //
+   #define EXPORT_PROPERTY(NAME) \
+      .add_property(#NAME, \
+         make_getter(&kaleidoscope::OneShot::NAME), \
+         make_setter(&kaleidoscope::OneShot::NAME) \
+      )
+   
+   EXPORT_PROPERTY(time_out)
+   EXPORT_PROPERTY(hold_time_out)
+   EXPORT_PROPERTY(double_tap_sticky)
+
+   EXPORT_PROPERTY(start_time_)
+   EXPORT_PROPERTY(state_)
+   EXPORT_PROPERTY(sticky_state_)
+   EXPORT_PROPERTY(pressed_state_)
+   EXPORT_PROPERTY(prev_key_)
+   EXPORT_PROPERTY(should_cancel_)
+   EXPORT_PROPERTY(should_cancel_stickies_)
+   EXPORT_PROPERTY(should_mask_on_interrupt_)
+   ;
+}
+      
+LEIDOKOS_PYTHON_EXPORT(&exportPython, nullptr)
+
+} // namespace one_shot
+} // namespace kaleidoscope

@@ -1,9 +1,3 @@
 ---
    description: An example test that imports Python symbols exported by Kaleidoscope-OneShot.
    name: Python_Symbol_Import
-   
-   # We use a special prepared version of arduino boards
-   #
-   boards_url: https://github.com/CapeLeidokos/Arduino-Boards.git
-   boards_commit: testing_Kaleidoscope-OneShot
-   

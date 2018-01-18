@@ -23,9 +23,8 @@ void exportPython() {
    using namespace boost::python;
 
    // Symbols of this plugin are exported 
-   // as leidokos.kaleidoscope.one_shot
+   // as kaleidoscope.one_shot
    //
-   LEIDOKOS_PYTHON_MODULE_CONTENT(kaleidoscope)
    LEIDOKOS_PYTHON_MODULE_CONTENT(one_shot)
 
    auto OneShot_class
@@ -36,12 +35,12 @@ void exportPython() {
       
    // Everything that follows the next line 
    // is defined at class scope
-   // leidokos.kaleidoscope.one_shot.OneShot
+   // kaleidoscope.one_shot.OneShot
    //
    scope OneShot_class_scope = OneShot_class;
     
    // Export the nested class kaleidoscope::OneShot::state_t
-   // as leidokos.kaleidoscope.one_shot.OneShot.state_t
+   // as kaleidoscope.one_shot.OneShot.state_t
    //
    class_<kaleidoscope::OneShot::state_t>("state_t",
       "A state union",

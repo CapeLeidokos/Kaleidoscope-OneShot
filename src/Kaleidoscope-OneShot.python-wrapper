@@ -50,18 +50,10 @@ void exportPython() {
    // Export Python properties that allow direct access to 
    // the union OneShot::state_t
    // 
-   .add_property("mods", 
-               make_getter(&kaleidoscope::OneShot::state_t::mods),
-               make_setter(&kaleidoscope::OneShot::state_t::mods)
-   )
-   .add_property("layers", 
-               make_getter(&kaleidoscope::OneShot::state_t::layers),
-               make_setter(&kaleidoscope::OneShot::state_t::layers)
-   )
-   .add_property("all", 
-               make_getter(&kaleidoscope::OneShot::state_t::all),
-               make_setter(&kaleidoscope::OneShot::state_t::all)
-   );
+   .def_readwrite("mods", &kaleidoscope::OneShot::state_t::mods)
+   .def_readwrite("layers", &kaleidoscope::OneShot::state_t::layers)
+   .def_readwrite("all", &kaleidoscope::OneShot::state_t::all)
+   ;
 
    // A convenience function macro that enables easy export 
    // of static methods of class kaleidoscope::OneShot
@@ -110,10 +102,7 @@ void exportPython() {
    // are exported as python properties.
    //
    #define EXPORT_PROPERTY(NAME) \
-      .add_property(#NAME, \
-         make_getter(&kaleidoscope::OneShot::NAME), \
-         make_setter(&kaleidoscope::OneShot::NAME) \
-      )
+      .def_readwrite(#NAME, &kaleidoscope::OneShot::NAME)
    
    EXPORT_PROPERTY(time_out)
    EXPORT_PROPERTY(hold_time_out)

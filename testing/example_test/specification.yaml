@@ -8,4 +8,4 @@
    modules:
       - url: __TARGET__
         commit: __TARGET__
-        name: 
+        name: __REMOVE_DEFAULT__

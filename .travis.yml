@@ -26,10 +26,6 @@ jobs:
          - mkdir ktest
          - cd ktest
          - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
-         - cd /home/travis/ktest/firmware/1/build
-         - ls -l
-         - nm -C kaleidoscope.so
-         - nm -C _kaleidoscope.so
          
 notifications:
   email:

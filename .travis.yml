@@ -1,7 +1,9 @@
 dist: trusty
 sudo: required
+language: generic
 os:
  - linux
+ - osx
  
 # Only test direct pushes to master
 #

@@ -1,0 +1,11 @@
+---
+   description: An example test that imports Python symbols exported by Kaleidoscope-OneShot.
+   name: Python_Symbol_Import
+   
+   # Inform the build system to checkout and update firmware submodule Kaleidoscope-OneShot
+   # __TARGET__ refers to the git repository where this test file resides
+   #
+   modules:
+      - url: __TARGET__
+        commit: __TARGET__
+        name: __REMOVE_DEFAULT__

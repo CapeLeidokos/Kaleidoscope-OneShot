@@ -25,6 +25,10 @@
 #define OSL(n) (Key) {.raw = kaleidoscope::ranges::OSL_FIRST + n}
 
 namespace kaleidoscope {
+   
+namespace one_shot {
+extern void exportPython();
+}
 
 class OneShot : public KaleidoscopePlugin {
  public:
@@ -73,6 +77,8 @@ class OneShot : public KaleidoscopePlugin {
 
   static Key eventHandlerHook(Key mapped_key, byte row, byte col, uint8_t key_state);
   static void loopHook(bool is_post_clear);
+  
+  friend void ::kaleidoscope::one_shot::exportPython();
 };
 
 }

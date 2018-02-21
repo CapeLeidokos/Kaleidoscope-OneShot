@@ -1,21 +1,32 @@
 dist: trusty
-sudo: false
+sudo: required
+language: generic
 os:
-  - linux
-install:
-  - git clone --depth 1 --recurse-submodules https://github.com/keyboardio/Arduino-Boards hardware/keyboardio/avr
+ - linux
+ - osx
+ 
+# Only test direct pushes to master
+#
+branches:
+  only: 
+    - master
+  
+before_install:
+   - cd $HOME
+   - git clone --recursive https://github.com/noseglasses/Leidokos-Testing.git
+   - Leidokos-Testing/travis/before_install.sh
+
 script:
-  - make travis-test BOARD_HARDWARE_PATH=$(pwd)/hardware
+   - cd $HOME
+   - mkdir ktest
+   - cd ktest
+   - $HOME/Leidokos-Testing/travis/test_kaleidoscope_module.sh
+         
 notifications:
-  irc:
-    channels:
-      - "chat.freenode.net#keyboardio"
-    use_notice: true
-    skip_join: true
-    template:
-      - "%{repository_name}/%{branch} %{commit} by %{author}: %{commit_subject} %{build_url} %{message}" 
   email:
-    on_success: change
-    on_failure: change
+    recipients:
+      - shinynoseglasses@gmail.com
+    on_failure: always
+    
 cache:
-  ccache: true
+ccache: true
